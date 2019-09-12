@@ -1,11 +1,11 @@
-/* require() method is what we use to load modules in. In this case, we are loading the file system module. */
-const fs = require('fs');
+/* require('./utils') returns whatever value we exported from utils.js */
+const add = require('./utils');
+const getNotes = require('./notes');
 
-/* Below code will create a notes.txt file, with the content as provided in the second argument. writeFileSync() creates
-a new file if that file does not exist; if the file does exist, it will just overwrite the content of that file with
- what we provide in the second argument. */
-fs.writeFileSync('notes.txt', 'My name is Sikandar Ali!');
+const sum = add(3,4);
 
-/* appendFileSync() appends the content of the file we declare (in our case it is notes.txt) with the content we provide
-in the second argument. */
-fs.appendFileSync('notes.txt', '\nI was born in Pakistan');
+/* app.js has its own scope with its own variables. The same goes for utils.js. Therefore, app.js cannot access
+utils.js' variables. If we want to get utils.js' variables we have to explicitly export it from utils.js.
+ */
+console.log(sum);
+console.log(getNotes());
