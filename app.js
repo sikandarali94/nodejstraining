@@ -1,13 +1,21 @@
-/* To install a npm module globally we use the -g flag e.g. npm install nodemon@1.18.5 -g. Global installation of a
-package means that the package is installed on our operating system. package.json will not be altered when installing
-a package globally because that package does not become a dependency of our application, but rather it is just installed
-on our OS.
-
-With nodemon installed globally, we can run our node scripts using nodemon e.g. nodemon app.js. nodemon reloads our
-application automatically whenever we make changes to our script, which is a lot more convenient than manually reloading
-it. */
+/* To pass a value to our node application from the terminal, we can pass it as an argument (e.g. node app.js Sikandar
+[Sikandar is the value we are passing]).
+ */
 const chalk = require('chalk');
 
 const getNotes = require('./notes');
 
-console.log(chalk.blue.bold.inverse('Error!'));
+/* We can access the value arguments using process.argv (where 'process' is the global library provided by Node at
+runtime, similar to 'window' provided by browsers). process.argv gives us all the arguments as an array. The interesting
+thing is that process.argv considers every word in the terminal as an argument (e.g. in 'node app.js Sikandar',
+process.argv returns: ['D:\\Program Files (x86)\\nodejs\\node.exe','D:\\Coding\\Practice\\NodeJS\\app.js','Sikandar'])
+ */
+// console.log(process.argv);
+
+const command = process.argv[2];
+
+if (command === 'add') {
+    console.log('Adding note!');
+} else if (command === 'remove') {
+    console.log('Removing note!');
+}
