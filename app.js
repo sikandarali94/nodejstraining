@@ -28,8 +28,33 @@ yargs.command({
     command: 'add',
     /* We don't have to describe our command but it is a good idea. */
     describe: 'Add a new note',
-    handler: function() {
-        console.log('Adding a new note!');
+    /* builder is an object upon which we can define the options that we want the command to have. We don't have to
+    provide these options in our command (these are optional). We can set an option to be required by setting
+    demandOption to false, as shown below. If we don't provide demandOption config, demandOption is by default set to
+    false. */
+    builder: {
+        title: {
+            describe: 'Note title',
+            demandOption: true,
+            type: 'string'
+        },
+        body: {
+            describe: 'Note body',
+            demandOption: true,
+            type: 'string'
+        }
+    },
+    /* argv receives all the options that the command has been given. So if we wrote the command:
+    node app.js add --title="Shopping list", this is the value argv receives:
+    { _: [ 'add' ], title: 'Shopping List', '$0': 'app.js' }.
+    If we provide a command with an option without a value (e.g. node app.js add --title), that option value is passed
+    as true (e.g. { _: [ 'add' ], title: true, '$0': 'app.js' }). However, we can enforce the value type of an option by
+    setting the type config, as shown above (in the case of string, if we don't provide a value to the option it is
+    passed as an empty string e.g. { _: [ 'add' ], title: '', '$0': 'app.js' }.
+ */
+    handler: function(argv) {
+        console.log('Title: ' + argv.title);
+        console.log('Body: ' + argv.body);
     }
 });
 
@@ -60,6 +85,10 @@ yargs.command({
 /* If we type this in the terminal: node app.js add --title="Things to buy", yargs.argv returns an object:
 { _: [ 'add' ], title: 'Things to buy', '$0': 'app.js' }. We can see that the value passed to --title is parsed.
 Calling yargs.argv is what signals to yargs to start processing the command line arguments provided. Otherwise none of
-the commands above will process e.g. node app.js add, will not execute the handler method of we do not call yargs.argv.
-*/
-console.log(yargs.argv);
+the commands above will process e.g. node app.js add, will not execute the handler method if we do not call
+yargs.argv.
+However, if we want to run yargs without declaring yargs.argv we can so so with the yargs.parse() command as shown
+below. */
+yargs.parse();
+
+// console.log(yargs.argv);
