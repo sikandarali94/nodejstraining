@@ -3,7 +3,7 @@
 const chalk = require('chalk');
 const yargs = require('yargs');
 
-const getNotes = require('./notes');
+const notes = require('./notes');
 
 /* We can access the value arguments using process.argv (where 'process' is the global library provided by Node at
 runtime, similar to 'window' provided by browsers). process.argv gives us all the arguments as an array. The interesting
@@ -53,8 +53,7 @@ yargs.command({
     passed as an empty string e.g. { _: [ 'add' ], title: '', '$0': 'app.js' }.
  */
     handler: function(argv) {
-        console.log('Title: ' + argv.title);
-        console.log('Body: ' + argv.body);
+        notes.addNote(argv.title, argv.body);
     }
 });
 
