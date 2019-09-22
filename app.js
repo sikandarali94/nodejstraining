@@ -1,6 +1,5 @@
 /* To pass a value to our node application from the terminal, we can pass it as an argument (e.g. node app.js Sikandar
 [Sikandar is the value we are passing]). */
-const chalk = require('chalk');
 const yargs = require('yargs');
 
 const notes = require('./notes');
@@ -52,23 +51,30 @@ yargs.command({
     setting the type config, as shown above (in the case of string, if we don't provide a value to the option it is
     passed as an empty string e.g. { _: [ 'add' ], title: '', '$0': 'app.js' }.
  */
-    handler: function(argv) {
-        notes.addNote(argv.title, argv.body);
-    }
+    handler: ({ title, body }) => {
+        notes.addNote(title, body);
+    },
 });
 
 yargs.command({
     command: 'remove',
     describe: 'Remove a note',
-    handler: function() {
-        console.log('Removing the note')
+    builder: {
+        title: {
+            describe: 'Note title',
+            demandOption: true,
+            type: 'string'
+        }
+    },
+    handler: ({ title }) => {
+        notes.removeNote(title);
     }
 });
 
 yargs.command({
     command: 'list',
     describe: 'List all notes',
-    handler: function() {
+    handler: () => {
         console.log('Listing all notes');
     }
 });
@@ -76,7 +82,7 @@ yargs.command({
 yargs.command({
     command: 'read',
     describe: 'Read a note',
-    handler: function() {
+    handler: () => {
         console.log('Reading a note');
     }
 });
