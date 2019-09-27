@@ -51,7 +51,7 @@ yargs.command({
     setting the type config, as shown above (in the case of string, if we don't provide a value to the option it is
     passed as an empty string e.g. { _: [ 'add' ], title: '', '$0': 'app.js' }.
  */
-    handler: ({ title, body }) => {
+    handler({ title, body }) {
         notes.addNote(title, body);
     },
 });
@@ -66,7 +66,7 @@ yargs.command({
             type: 'string'
         }
     },
-    handler: ({ title }) => {
+    handler({ title }) {
         notes.removeNote(title);
     }
 });
@@ -74,7 +74,7 @@ yargs.command({
 yargs.command({
     command: 'list',
     describe: 'List all notes',
-    handler: () => {
+    handler() {
         console.log('Listing all notes');
     }
 });
@@ -82,7 +82,7 @@ yargs.command({
 yargs.command({
     command: 'read',
     describe: 'Read a note',
-    handler: () => {
+    handler() {
         console.log('Reading a note');
     }
 });
