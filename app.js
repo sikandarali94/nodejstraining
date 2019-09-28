@@ -16,6 +16,14 @@ process.argv returns: ['D:\\Program Files (x86)\\nodejs\\node.exe','D:\\Coding\\
 below. So when we run, for example: node app.js --version, yargs will output 1.1.0 in our case. */
 yargs.version('1.1.0');
 
+yargs.command({
+    command: 'list',
+    describe: 'List all notes',
+    handler() {
+        notes.listNotes();
+    }
+});
+
 /* By adding a new command with describe, if we write in the terminal: node app.js --help, we will see something like
 this appear:
 Commands:
@@ -68,14 +76,6 @@ yargs.command({
     },
     handler({ title }) {
         notes.removeNote(title);
-    }
-});
-
-yargs.command({
-    command: 'list',
-    describe: 'List all notes',
-    handler() {
-        console.log('Listing all notes');
     }
 });
 

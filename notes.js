@@ -11,6 +11,14 @@ const errorMessage = message => {
     return chalk.bgRed.black(message);
 };
 
+const listNotes = () => {
+    console.log(successMessage('Your notes'));
+    const notes = loadNotes();
+    notes.forEach(note => {
+        console.log(note.title);
+    })
+};
+
 const saveNotes = notes => {
     const dataJSON = JSON.stringify(notes);
     fs.writeFileSync('notes.json', dataJSON);
@@ -57,6 +65,7 @@ const removeNote = title => {
 };
 
 module.exports = {
+    listNotes,
     getNotes,
     addNote,
     removeNote
