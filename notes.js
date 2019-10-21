@@ -35,8 +35,6 @@ const saveNotes = notes => {
 };
 
 const loadNotes = () => {
-    /* If we don't have a file named notes.json, then we will get an error. That is why we should be writing defensive
-    code as we have done with the try and catch statements. */
     try {
         const dataBuffer = fs.readFileSync('notes.json');
         const dataJSON = dataBuffer.toString();
@@ -50,6 +48,19 @@ const loadNotes = () => {
 const addNote = (title, body) => {
     const notes = loadNotes();
     const duplicateNote = notes.find(note => note.title === title);
+
+    /* The debugger statement pauses the application at the point where it is stated. Then we can use the developer
+    tools to look at any values that exist at the point where the debugger statement is stated. However, node
+    applications will not pause at debugger statements by default; we have to run the node applications in debug mode
+    to do that. To run node in debug mode we provide the inspect option e.g. node inspect app.js (if this doesn't work
+    we can write: node --inspect-brk app.js).
+    While the application is running in debug mode, we can then go on Chrome and type in the URL: chrome://inspect. We
+    should have two targets running under Remote Target: localhost and 127.0.0.1. If we don't see 127.0.0.1 target, we
+    can go into configure and add 127.0.0.1:9229 to the target discovery settings.
+    We can click on inspect on a target and that brings up the developer tools. When in the developer tools, it is a
+    good idea to add the folder of our project to the workspace, by selecting 'Add folder to workspace; and after
+    selecting our project folder, allowing it to be added. */
+    debugger;
 
     if (!duplicateNote) {
         notes.push({
