@@ -3,9 +3,11 @@ const api = require('./api');
 /* request is a library that allows us to make HTTP requests easily. */
 const request = require('request');
 
-const url = `https://api.darksky.net/forecast/${api.API_KEY}/37.8267,-122.4233`;
+const url = `https://api.darksky.net/forecast/${api.API_KEY}/37.8267,-122.4233?units=si`;
 
-request({ url }, (error, response) => {
-    const data = JSON.parse(response.body);
-    console.log(data.currently);
+/* Setting 'json: true' automatically parses JSON response to a JS object. */
+request({ url, json: true }, (error, response) => {
+    const { temperature, precipProbability } = response.body.currently;
+    const { summary } = response.body.daily.data[0];
+    console.log(`${summary} It is currently ${temperature} degrees out. There is a ${precipProbability}% chance of rain.`);
 });
