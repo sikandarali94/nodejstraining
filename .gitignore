@@ -43,3 +43,6 @@ Thumbs.db
 
 # TS files
 app.component.ts
+
+# Custom
+api.js
