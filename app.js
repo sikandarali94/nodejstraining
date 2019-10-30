@@ -33,3 +33,17 @@ request({ url: mapBoxUrl, json: true }, (error, response) => {
         console.log(`Latitude is: ${latitude}. Longitude is: ${longitude}`);
     }
 });
+
+/* A callback function is nothing more than a function we provide as an argument to another function with the intention
+of having it called later on. A callback function is used for both synchronous and asynchronous code. Below is an
+example of a callback pattern. */
+add = (number1, number2, callback) => {
+    setTimeout(() => {
+        const sum = number1 + number2;
+        callback(sum);
+    }, 2000)
+};
+
+add(1, 4, sum => {
+    console.log(`The sum is: ${sum}`)
+});
