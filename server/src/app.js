@@ -14,11 +14,16 @@ used to join all the path segments together. For example, if __dirname is 'serve
 console.log(path.join(__dirname, '../public'));
 
 const app = express();
+
 const publicDirectoryPath = path.join(__dirname, '../public');
+const viewsPath = path.join(__dirname, '../templates');
 
 /* Below we are telling Express that the view engine we are using is hbs. Note: we must make sure that we write
 'view engine' exactly because that is an exact setting name in Express. */
 app.set('view engine', 'hbs');
+/* With the views setting, we can override the default view folder path with a custom one, as shown below. In our case,
+Express will now look in the templates folder for the views instead of the default views folder. */
+app.set('views', viewsPath);
 
 /* In general, the use() method is used to customise our server. In our case, we are going to customise the server to
 serve out the folder where our index.html page lives. express.static() method takes the path to the folder we want to
