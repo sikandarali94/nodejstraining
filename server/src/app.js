@@ -1,7 +1,11 @@
+/* We can specifically tell nodemon which extension files to look for changes in using this command: nodemon src/app.js
+-e js,hbs
+ */
 /* Node has a core module called Path that provides us a ton of great utilities for working with paths. This is done in
 a cross OS compatible way. */
 const path = require('path');
 const express = require('express');
+const hbs = require('hbs');
 /* handlebars is a templating engine that will be able to render dynamic content. We'll be able to easily use and reuse
 little pieces of markup throughout the various pages in our app. The hbs library allows handlebars to be easily
 integrated into the Express framework. */
@@ -16,7 +20,8 @@ console.log(path.join(__dirname, '../public'));
 const app = express();
 
 const publicDirectoryPath = path.join(__dirname, '../public');
-const viewsPath = path.join(__dirname, '../templates');
+const viewsPath = path.join(__dirname, '../templates/views');
+const partialsPath = path.join(__dirname, '../templates/partials');
 
 /* Below we are telling Express that the view engine we are using is hbs. Note: we must make sure that we write
 'view engine' exactly because that is an exact setting name in Express. */
@@ -24,6 +29,9 @@ app.set('view engine', 'hbs');
 /* With the views setting, we can override the default view folder path with a custom one, as shown below. In our case,
 Express will now look in the templates folder for the views instead of the default views folder. */
 app.set('views', viewsPath);
+/* We provide the partials directory to the hbs.registerPartials() method, thus telling hbs where our partials directory
+lies. */
+hbs.registerPartials(partialsPath);
 
 /* In general, the use() method is used to customise our server. In our case, we are going to customise the server to
 serve out the folder where our index.html page lives. express.static() method takes the path to the folder we want to
@@ -53,7 +61,9 @@ app.get('/about', (req, res) => {
 
 app.get('/help', (req, res) => {
   res.render('help', {
-    message: 'This is some helpful text.'
+    message: 'This is some helpful text.',
+    title: 'Help',
+    name: 'Sikandar Ali'
   });
 })
 
