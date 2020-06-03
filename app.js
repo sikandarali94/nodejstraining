@@ -6,8 +6,6 @@ const location = process.argv[2];
 if (location) {
     geocode(location, (error, { longitude, latitude, location } = {}) => {
         if (error) {
-            /* By returning the console.log() statement, we are logging to the console as well as coming out of the
-            function. */
             return console.log('Error', error);
         }
 

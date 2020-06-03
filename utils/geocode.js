@@ -1,5 +1,3 @@
-/* request is just an npm library, we do not actually need it to make HTTP requests, although it makes creating HTTP
-requests a whole lot easier. */
 const request = require('request');
 
 const api = require('../api');
