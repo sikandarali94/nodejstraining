@@ -10,19 +10,31 @@ written as 'res'). '' refers to the root URL e.g. app.com. If we do not have a r
 someone visits a route, they get the default error: 'Cannot GET /about'. */
 app.get('', (req, res) => {
   /* send() method allows us to send something back to the requester. */
-  res.send('Hello express!');
+  res.send('<h1>Weather</h1>');
 });
 
 app.get('/help', (req, res) => {
-  res.send('Help page');
+  res.send([
+    {
+      name: 'Sikandar',
+      age: 25
+    },
+    {
+      name: 'Peter',
+      age: 23
+    }
+  ]);
 });
 
 app.get('/about', (req, res) => {
-  res.send('About page');
+  res.send('<h1>About</h1>');
 });
 
 app.get('/weather', (req, res) => {
-  res.send('Weather page');
+  res.send({
+    forecast: "Overcast",
+    location: "Sydney"
+  });
 });
 
 /* The listen method is used to start the server. It takes in a port which the server listens to, and a callback
