@@ -39,10 +39,36 @@ app.get('/help', (req, res) => {
   });
 })
 
-app.get('/weather', (req, res) => {
+app.get('/weather', ({ query } = {}, res) => {
+  const { address } = query;
+
+  if (!address) {
+    return res.send({
+      error: 'No address was provided'
+    });
+  }
+
   res.send({
+    address,
     forecast: "Overcast",
     location: "Sydney"
+  });
+});
+
+/* Query strings are at the end of a URL; we start it off with a question mark, followed by key-value pairs (separated
+by &) e.g. app.com?search=games&rating=5. */
+app.get('/products', (req, res) => {
+  /* We have to make sure not to respond to the same request twice, otherwise, we get the error: Cannot set headers
+  after they are sent to the client. */
+  if (!req.query.search) {
+    return res.send({
+      error: 'You must provide a search term'
+    });
+  }
+  /* req.query contains all of the parsed query string information e.g. { search: 'games', rating: '5' }. */
+  console.log(req.query.search);
+  res.send({
+    products: []
   });
 });
 
