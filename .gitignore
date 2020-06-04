@@ -45,4 +45,4 @@ Thumbs.db
 app.component.ts
 
 # Custom
-api.js
+server/api.js

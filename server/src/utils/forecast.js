@@ -1,4 +1,4 @@
-const api = require('../api');
+const api = require('../../api');
 const request = require('request');
 
 const forecast = (longitude, latitude, callback) => {
