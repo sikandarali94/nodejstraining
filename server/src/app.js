@@ -81,6 +81,29 @@ app.get('/weather', (req, res) => {
   });
 });
 
+/* '/help/*' matches any URL route after '/help' e.g. '/help/me', '/help/data', and so forth. */
+app.get('/help/*', (req, res) => {
+  res.render('404', {
+    title: '404',
+    name: 'Sikandar Ali',
+    message: 'Help article not found'
+  });
+});
+
+/* Express provides us with the wildcard character to match every URL that is not listed explicitly defined above with
+app.get(), if it is just written as '*'. This is what we will use to show the 404 page. We need to place this wildcard
+URL route at the very end after all the defined routes above. This is because when Express gets an incoming request it
+starts to look for a match -- it looks for it in the order of the routes we wrote in our application. If we place the
+wildcard route URL at the top, every route will get matched, including the about, help, weather -- Express will not
+search any further, thus breaking our application. */
+app.get('*', (req, res) => {
+  res.render('404', {
+    title: '404',
+    name: 'Sikandar Ali',
+    message: 'Page not found'
+  });
+});
+
 /* The listen method is used to start the server. It takes in a port which the server listens to, and a callback
 function (optional) which runs when the server is spun up. Spinning up the server is an asynchronous process. */
 app.listen(3000, () => {
