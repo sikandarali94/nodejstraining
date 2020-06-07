@@ -38,6 +38,19 @@ const User = mongoose.model('User', {
       }
     }
   },
+  /* minlength validates that a value must be of a minimum length. It is recommended not to store passwords as plain
+  text. */
+  password: {
+    type: String,
+    required: true,
+    minlength: 7,
+    trim: true,
+    validate(value) {
+      if (value.toLowerCase().includes('password')) {
+        throw new Error('Password cannot contain "password"');
+      }
+    }
+  },
   age: {
     type: Number,
     default: 0,
@@ -50,36 +63,39 @@ const User = mongoose.model('User', {
 });
 
 // /* Below we are creating an instance of a Mongoose Model. */
-const me = new User({
-  name: ' Sikandar  ',
-  email: 'myemail@mead.IO  '
-});
+// const me = new User({
+//   name: ' Sikandar  ',
+//   email: 'myemail@mead.IO  ',
+//   password: 'phone098!'
+// });
 //
 // /* The save() method simply saves the data that we defined to the Mongo database. This returns a promise. */
-me.save().then(() => {
-  console.log(me);
-}).catch(error => {
-  console.log('Error!', error);
-});
+// me.save().then(() => {
+//   console.log(me);
+// }).catch(error => {
+//   console.log('Error!', error);
+// });
 
 /* Mongoose actually takes the model name we provided, converts it to lower case and pluralises it and sets the result
 as the collection name. */
 const Task = mongoose.model('Task', {
   description: {
-    type: String
+    type: String,
+    required: true,
+    trim: true
   },
   completed: {
-    type: Boolean
+    type: Boolean,
+    default: false
   }
 });
 
-// const firstTask = new Task({
-//   description: 'First Task',
-//   completed: false
-// });
-//
-// firstTask.save().then(() => {
-//   console.log(firstTask);
-// }).catch(error => {
-//   console.log('Error!', error);
-// });
+const firstTask = new Task({
+  description: '  First Task   '
+});
+
+firstTask.save().then(() => {
+  console.log(firstTask);
+}).catch(error => {
+  console.log('Error!', error);
+});
