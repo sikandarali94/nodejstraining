@@ -15,8 +15,6 @@ weatherForm.addEventListener('submit', e => {
   messageTwo.textContent = '';
 
   fetch(`http://localhost:3000/weather?address=${location}`).then(response => {
-    /* The json() method of the Body mixin takes a Response stream and reads it to completion. It returns a promise that
-    resolves with the result of parsing the body text as JSON and returning it as a JS object. */
     response.json().then(({ error, forecast, location } = {}) => {
       if (error) {
         return messageOne.textContent = error;
