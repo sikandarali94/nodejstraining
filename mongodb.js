@@ -60,4 +60,40 @@ MongoClient.connect(connectionURL, { useNewUrlParser: true }, (error, client) =>
 
     console.log(tasks);
   });
+
+  /* MongoDB CRUD methods return a promise when no callback is passed. updateOne is used to update a single document.
+  The first argument is an object through which we filter the database for a particular document. The second argument
+  contains all of the update operations we want to apply to our document. */
+  // db.collection('users').updateOne({
+  //   _id: new ObjectID('5edc8af0b30b880e64cb1951')
+  // }, {
+  //   /* $set is one of many update operators we can apply to update documents. $inc is used to increment/decrement a
+  //   number value by a certain amount. */
+  //   // $set: {
+  //   //   name: 'Mike'
+  //   // }
+  //   $inc: {
+  //     age: 1
+  //   }
+  // }).then(result => {
+  //   /* What we get back in result is a very long object. The most common properties used from the object are
+  //   modifiedCount (how many documents were modified) and matchedCount (how many documents were matched by the filter
+  //   object). */
+  //   console.log(result);
+  // }).catch(error => {
+  //   console.log(error);
+  // });
+
+  /* updateMany is used to update multiple documents at once. */
+  db.collection('tasks').updateMany({
+    completed: false
+  }, {
+    $set: {
+      completed: true
+    }
+  }).then(result => {
+    console.log(result);
+  }).catch(error => {
+    console.log(error);
+  });
 });
