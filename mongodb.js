@@ -37,8 +37,57 @@ MongoClient.connect(connectionURL, { useNewUrlParser: true }, (error, client) =>
   /* To access/create a collection we can use the collection() method and provide the collection name. insertOne allows
   us to insert a single document into a collection. MongoDB generates a unique identifier for every document in our
   collection and stores it in the _id field. */
-  db.collection('users').insertOne({
-    name: 'Andrew',
-    age: 27
+  /* We should provide a callback function as it tells us if the database operation was run successfully or not. The
+  first argument provided to the callback is error and the second is result, as shown below. */
+  // db.collection('users').insertOne({
+  //   name: 'Andrew',
+  //   age: 27
+  // }, (error, result) => {
+  //   if (error) {
+  //     return console.log('Unable to insert user');
+  //   }
+
+    /* The most useful property on result is ops (an array), which contains all of the documents that were inserted, in
+    this case. */
+  //   console.log(result.ops);
+  // });
+
+  /* insertMany allows us to bulk insert multiple documents. */
+  // db.collection('users').insertMany([
+  //   {
+  //     name: 'Jen',
+  //     age: 28
+  //   },
+  //   {
+  //     name: 'Gunther',
+  //     age: 27
+  //   }
+  // ], (error, result) => {
+  //     if (error) {
+  //       return console.log('Unable to insert documents!');
+  //     }
+  //
+  //     console.log(result.ops);
+  // });
+
+  db.collection('tasks').insertMany([
+    {
+      description: 'First task',
+      completed: false
+    },
+    {
+      description: 'Second task',
+      completed: true
+    },
+    {
+      description: 'Third task',
+      completed: true
+    }
+  ], (error, result) => {
+    if (error) {
+      return console.log('Could not insert tasks!');
+    }
+
+    console.log(result.ops);
   });
 });
