@@ -85,12 +85,32 @@ MongoClient.connect(connectionURL, { useNewUrlParser: true }, (error, client) =>
   // });
 
   /* updateMany is used to update multiple documents at once. */
-  db.collection('tasks').updateMany({
-    completed: false
-  }, {
-    $set: {
-      completed: true
-    }
+  // db.collection('tasks').updateMany({
+  //   completed: false
+  // }, {
+  //   $set: {
+  //     completed: true
+  //   }
+  // }).then(result => {
+  //   console.log(result);
+  // }).catch(error => {
+  //   console.log(error);
+  // });
+
+  /* deleteMany is used to delete multiple documents. */
+  db.collection('users').deleteMany({
+    age: 27
+  }).then(result => {
+    /* The most common used property from the result object is the deletedCount property (how many documents were
+    deleted). */
+    console.log(result);
+  }).catch(error => {
+    console.log(error);
+  });
+
+  /* deleteOne is used to delete a single document. */
+  db.collection('tasks').deleteOne({
+    description: 'First task'
   }).then(result => {
     console.log(result);
   }).catch(error => {
