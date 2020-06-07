@@ -23,17 +23,39 @@ const User = mongoose.model('User', {
   }
 });
 
-/* Below we are creating an instance of a Mongoose Model. */
-const me = new User({
-  name: 'Sikandar',
-  age: 25
+// /* Below we are creating an instance of a Mongoose Model. */
+// const me = new User({
+//   name: 'Sikandar',
+//   age: 25
+// });
+//
+// /* The save() method simply saves the data that we defined to the Mongo database. This returns a promise. */
+// me.save().then(() => {
+//   /* Mongoose adds an additional property when we save a document to the DB: __v (this stores the version of the
+//   document starting from 0). */
+//   console.log(me);
+// }).catch(error => {
+//   console.log('Error!', error);
+// });
+
+/* Mongoose actually takes the model name we provided, converts it to lower case and pluralises it and sets the result
+as the collection name. */
+const Task = mongoose.model('Task', {
+  description: {
+    type: String
+  },
+  completed: {
+    type: Boolean
+  }
 });
 
-/* The save() method simply saves the data that we defined to the Mongo database. This returns a promise. */
-me.save().then(() => {
-  /* Mongoose adds an additional property when we save a document to the DB: __v (this stores the version of the
-  document starting from 0). */
-  console.log(me);
+const firstTask = new Task({
+  description: 'First Task',
+  completed: false
+});
+
+firstTask.save().then(() => {
+  console.log(firstTask);
 }).catch(error => {
   console.log('Error!', error);
-});
+})
