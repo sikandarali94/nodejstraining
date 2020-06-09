@@ -25,6 +25,38 @@ app.post('/users', (req, res) => {
   });
 });
 
+app.get('/users', (req, res) => {
+  /* Mongoose provides methods for CRUD operations on a database similar to the ones that native Mongo provides. Please
+  refer to the Mongoose documentation for all of these methods. */
+  User.find({}).then(users => {
+    res.status(200).send(users);
+  }).catch(e => {
+    /* With a 500 status code (internal server error), we generally do not send anything back. */
+    res.status(500).send();
+  });
+});
+
+/* Express gives us access to something called route parameters. These are parts of the URL that are used to capture
+dynamic values. To create a route parameter we add a colon (:) followed by a name, as shown below. */
+app.get('/users/:id', (req, res) => {
+  /* The params object contains all of the route parameters that were provided in the URL. */
+  const _id = req.params.id;
+  /* With findById() method, we do not have to explicity convert an id string to an ObjectId by wrapping it in
+  'new ObjectId()', this Mongoose method does it for us. */
+  User.findById(_id).then(user => {
+    /* It is important to note that a MongoDB query is not considered a failure if we do not get any results back when
+    when we are looking for something -- in fact, it is considered a success. */
+    if (!user) {
+      /* 404 status code is set when a certain resource is not found. */
+      return res.status(404).send();
+    }
+
+    res.send(user);
+  }).catch(e => {
+    res.status(500).send();
+  });
+});
+
 app.post('/tasks', (req, res) => {
   const task = new Task(req.body);
 
