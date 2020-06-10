@@ -86,6 +86,21 @@ app.patch('/users/:id', async (req, res) => {
   }
 });
 
+app.delete('/users/:id', async (req, res) => {
+  try {
+    /* findByIdAndDelete() only requires the id of the document. It returns the document that was deleted. */
+    const user = await User.findByIdAndDelete(req.params.id);
+
+    if (!user) {
+      return res.status(404).send();
+    }
+
+    res.send(user);
+  } catch (e) {
+    res.status(500).send();
+  }
+});
+
 app.post('/tasks', async (req, res) => {
   const task = new Task(req.body);
 
@@ -146,6 +161,20 @@ app.patch('/tasks/:id', async (req, res) => {
 
   } catch (e) {
     res.status(400).send(e);
+  }
+});
+
+app.delete('/tasks/:id', async (req, res) => {
+  try {
+    const user = await Task.findByIdAndDelete(req.params.id);
+
+    if (!user) {
+      return res.status(404).send();
+    }
+
+    res.send(user);
+  } catch (e) {
+    res.status(500).send();
   }
 });
 
