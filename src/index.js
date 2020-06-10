@@ -10,7 +10,6 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
-/* Once we set up all the routes for a resource, we have to register it with our Express application. */
 app.use(userRouter);
 app.use(taskRouter);
 

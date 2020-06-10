@@ -2,7 +2,6 @@ const express = require('express');
 
 const User = require('../models/user');
 
-/* We use methods on Router to customize it. Router is going to have access to the same HTTP methods. */
 const router = new express.Router();
 
 router.post('/users', async (req, res) => {
