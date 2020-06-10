@@ -54,6 +54,38 @@ app.get('/users/:id', async (req, res) => {
   }
 });
 
+app.patch('/users/:id', async (req, res) => {
+  const updates = Object.keys(req.body);
+  const allowedUpdates = ['name', 'email', 'password', 'age'];
+  const isValidOperation = updates.every(update => allowedUpdates.includes(update));
+
+  if (!isValidOperation) {
+    return res.status(400).send({ error: 'Invalid updates!' });
+  }
+
+  try {
+    /* The method findByIdAndUpdate() first takes the id of the document we want to update, then what changes we want
+    to make to the document, and finally what options we want to set. The option 'new: true' returns the new document as
+    opposed to the existing one that was found before the update. The option 'runValidators: true' makes sure that we
+    run validation for the update. If we tried to update a property on User that did not exist (for example, height)
+    then the update will be completely ignored if we did not have custom code for which update properties are allowed,
+    as shown above.
+    */
+    const user = await User.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true
+    });
+
+    if (!user) {
+      return res.status(404).send();
+    }
+
+    res.send(user);
+  } catch (e) {
+    res.status(400).send(e);
+  }
+});
+
 app.post('/tasks', async (req, res) => {
   const task = new Task(req.body);
 
