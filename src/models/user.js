@@ -14,8 +14,10 @@ const userSchema = new mongoose.Schema({
     required: true,
     trim: true
   },
+  /* 'unique: true' is going to create in index in our MongoDB database to guarantee uniqueness for the field values. */
   email: {
     type: String,
+    unique: true,
     required: true,
     trim: true,
     lowercase: true,
@@ -46,6 +48,24 @@ const userSchema = new mongoose.Schema({
     }
   }
 });
+
+/* By setting up a method on the statics property, we're setting up something we can access directly on the User
+model. */
+userSchema.statics.findByCredentials = async (email, password) => {
+  const user = await User.findOne({ email });
+
+  if (!user) {
+    throw new Error('Unable to login');
+  }
+
+  const isMatch = await bcrypt.compare(password, user.password);
+
+  if (!isMatch) {
+    throw new Error('Unable to login');
+  }
+
+  return user;
+}
 
 /* For middleware we have pre() method for doing something before an event, and we have post() method for doing
 something just after an event. The first argument is the name of the event, the second argument is the function to run.
