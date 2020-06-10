@@ -51,10 +51,15 @@ router.patch('/users/:id', async (req, res) => {
   }
 
   try {
-    const user = await User.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true
-    });
+    /* Certain Mongoose queries like findByIdAndUpdate() bypass more advanced features like middleware, which means that
+    if we want to use them consistently we just have to do a tiny bit of restructuring. What we do is not use queries
+    like findByIdAndUpdate() and instead do the operations of this method step by step. This small adjustment, as shown
+    below, is required in order to get middleware to consistently run. */
+    const user = await User.findById(req.params.id);
+
+    updates.forEach(update => user[update] = req.body[update]);
+
+    await user.save();
 
     if (!user) {
       return res.status(404).send();
